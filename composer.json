@@ -1,29 +1,30 @@
 {
-  "name": "setnemo/laravel-validation-default-messages",
-  "description": "Trait for customizing default messages by type for Laravel Validation",
-  "minimum-stability": "stable",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "setnemo",
-      "email": "setnemo@gmail.com"
-    }
-  ],
-  "require": {
-    "php": "^7.4|~8.0.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9.5"
-  },
-  "autoload": {
-    "psr-4": {
-      "Setnemo\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\Unit\\": "tests/Unit/",
-      "Tests\\Stubs\\": "tests/Stubs/"
-    }
-  }
+    "name": "setnemo/laravel-validation-default-messages",
+    "description": "Trait for customizing default messages by type for Laravel Validation",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "setnemo",
+            "email": "setnemo@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4|~8.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Setnemo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Unit\\": "tests/Unit/",
+            "Tests\\Stubs\\": "tests/Stubs/"
+        }
+    },
+    "version": "1.0.0"
 }
