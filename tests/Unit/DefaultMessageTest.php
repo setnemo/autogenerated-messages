@@ -6,6 +6,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Tests\Stubs\Request;
+use Tests\Stubs\RequestAddRules;
 
 /**
  * Class DefaultMessageTest
@@ -13,6 +14,24 @@ use Tests\Stubs\Request;
  */
 class DefaultMessageTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function addRulesTest(): void
+    {
+        $request = new RequestAddRules([
+            'test_key' => 'test_rule',
+        ]);
+        $messages = $request->messages();
+        $this->assertEquals(
+            $this->createKeyMessages(
+                $request->getRulesToMessages()['test_rule'],
+                'test_key'
+            ),
+            $messages['test_key.test_rule']
+        );
+    }
+
     /**
      * @test
      */
@@ -29,35 +48,35 @@ class DefaultMessageTest extends TestCase
         $messages = $request->messages();
         $this->assertEquals(
             $this->createKeyMessages(
-                $request->getDefaultMessagesCommonRules()['required'],
+                $request->getRulesToMessages()['required'],
                 'name'
             ),
             $messages['name.required']
         );
         $this->assertEquals(
             $this->createKeyMessages(
-                $request->getDefaultMessagesCommonRules()['string'],
+                $request->getRulesToMessages()['string'],
                 'name'
             ),
             $messages['name.string']
         );
         $this->assertEquals(
             $this->createKeyMessages(
-                $request->getDefaultMessagesCommonRules()['integer'],
+                $request->getRulesToMessages()['integer'],
                 'start_date'
             ),
             $messages['start_date.integer']
         );
         $this->assertEquals(
             $this->createKeyMessages(
-                $request->getDefaultMessagesCommonRules()['numeric'],
+                $request->getRulesToMessages()['numeric'],
                 'price'
             ),
             $messages['price.numeric']
         );
         $this->assertEquals(
             $this->createKeyValueMessages(
-                $request->getDefaultMessagesCommonRules()['max'],
+                $request->getRulesToMessages()['max'],
                 'name',
                 '120'
             ),
@@ -65,7 +84,7 @@ class DefaultMessageTest extends TestCase
         );
         $this->assertEquals(
             $this->createKeyValueMessages(
-                $request->getDefaultMessagesCommonRules()['min'],
+                $request->getRulesToMessages()['min'],
                 'price',
                 '0'
             ),
@@ -73,7 +92,7 @@ class DefaultMessageTest extends TestCase
         );
         $this->assertEquals(
             $this->createKeyValueMessages(
-                $request->getDefaultMessagesCommonRules()['mimes'],
+                $request->getRulesToMessages()['mimes'],
                 'video',
                 'mp4,mov,avi'
             ),
@@ -81,7 +100,7 @@ class DefaultMessageTest extends TestCase
         );
         $this->assertEquals(
             $this->createKeyValueMessages(
-                $request->getDefaultMessagesCommonRules()['in'],
+                $request->getRulesToMessages()['in'],
                 'confidentiality',
                 'public,personal'
             ),
