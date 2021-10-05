@@ -10,28 +10,36 @@ namespace Setnemo\ValidationMessages;
  */
 trait DefaultMessages
 {
-    public array $commonRulesForOverride = [
-        'required',
-        'integer',
-        'numeric',
-        'string',
-        'url',
-        'in',
-        'min',
-        'max',
-        'mimes',
+    public array $ruleNames = [
+        ValidationConstant::RULE_REQUIRED,
+        ValidationConstant::RULE_INTEGER,
+        ValidationConstant::RULE_NUMERIC,
+        ValidationConstant::RULE_STRING,
+        ValidationConstant::RULE_URL,
+        ValidationConstant::RULE_IN,
+        ValidationConstant::RULE_MIN,
+        ValidationConstant::RULE_MAX,
+        ValidationConstant::RULE_MIMES,
     ];
 
-    public array $defaultMessagesCommonRules = [
-        'required' => ':key is required',
-        'integer' => 'Value for :key must be integer',
-        'numeric' => 'Key :key must be numeric',
-        'string' => 'Value for :key must be string',
-        'url' => 'Key :key must be valid url',
-        'in' => 'Allowed values for :key: :value',
-        'min' => 'Minimal value for :key is :value',
-        'max' => 'Maximal value for :key is :value',
-        'mimes' => 'Allowed formats for :key: :value',
+    public array $addRules = [
+
+    ];
+
+    public array $rulesToMessages = [
+        ValidationConstant::RULE_REQUIRED => ValidationConstant::MESSAGE_KEY_IS_REQUIRED,
+        ValidationConstant::RULE_INTEGER => ValidationConstant::MESSAGE_VALUE_FOR_KEY_MUST_BE_INTEGER,
+        ValidationConstant::RULE_NUMERIC => ValidationConstant::MESSAGE_KEY_KEY_MUST_BE_NUMERIC,
+        ValidationConstant::RULE_STRING => ValidationConstant::MESSAGE_VALUE_FOR_KEY_MUST_BE_STRING,
+        ValidationConstant::RULE_URL => ValidationConstant::MESSAGE_KEY_KEY_MUST_BE_VALID_URL,
+        ValidationConstant::RULE_IN => ValidationConstant::MESSAGE_ALLOWED_VALUES_FOR_KEY_VALUE,
+        ValidationConstant::RULE_MIN => ValidationConstant::MESSAGE_MINIMAL_VALUE_FOR_KEY_IS_VALUE,
+        ValidationConstant::RULE_MAX => ValidationConstant::MESSAGE_MAXIMAL_VALUE_FOR_KEY_IS_VALUE,
+        ValidationConstant::RULE_MIMES => ValidationConstant::MESSAGE_ALLOWED_FORMATS_FOR_KEY_VALUE,
+    ];
+
+    public array $addRulesToMessages = [
+
     ];
 
     /**
@@ -44,17 +52,17 @@ trait DefaultMessages
      */
     public function messages(): array
     {
-        $rules = $this->rules();
         $messages = [];
-        foreach ($rules as $key => $keyRulesAsString) {
-            $keyRules = explode('|', $keyRulesAsString);
+
+        foreach ($this->rules() as $key => $keyRulesAsString) {
+            $keyRules = explode(ValidationConstant::PIPELINE, $keyRulesAsString);
             foreach ($keyRules as $keyRule) {
-                if (in_array($keyRule, $this->getCommonRulesForOverride(), true)) {
+                if (in_array($keyRule, $this->getRuleNames(), true)) {
                     $messages["{$key}.{$keyRule}"] = $this->getKeyMessage($keyRule, $key);
                     continue;
                 }
-                $extract = explode(':', $keyRule);
-                if (isset($extract[1]) && in_array($extract[0], $this->getCommonRulesForOverride(), true)) {
+                $extract = explode(ValidationConstant::COLON, $keyRule);
+                if (isset($extract[1]) && in_array($extract[0], $this->getRuleNames(), true)) {
                     $messages["{$key}.{$extract[0]}"] = $this->getKeyValueMessage($extract, $key);
                 }
             }
@@ -66,30 +74,49 @@ trait DefaultMessages
     /**
      * @return array|string[]
      */
-    public function getCommonRulesForOverride(): array
+    public function getRuleNames(): array
     {
-        return $this->commonRulesForOverride;
+        return array_merge($this->ruleNames, $this->addRules);
+    }
+
+    /**
+     * @return $this
+     */
+    public function addRuleNames(array $newRules): self
+    {
+        $this->addRules = array_merge($this->addRules, $newRules);
+
+        return $this;
     }
 
     /**
      * @return array|string[]
      */
-    public function getDefaultMessagesCommonRules(): array
+    public function getRulesToMessages(): array
     {
-        return $this->defaultMessagesCommonRules;
+        return array_merge($this->rulesToMessages, $this->addRulesToMessages);
     }
 
     /**
-     * @param $keyRule
-     * @param $key
+     * @return $this
+     */
+    public function addRulesToMessages(array $newRules): self
+    {
+        $this->addRulesToMessages = array_merge($this->addRulesToMessages, $newRules);
+
+        return $this;
+    }
+
+    /**
+     * @param string $keyRule
+     * @param string $key
      * @return string
      */
-    protected function getKeyMessage($keyRule, $key): string
+    protected function getKeyMessage(string $keyRule, string $key): string
     {
-        return strtr(
-            $this->getDefaultMessagesCommonRules()[$keyRule] ?? 'Invalid data for :key',
-            [':key' => $key]
-        );
+        $template = $this->getRulesToMessages()[$keyRule] ?? ValidationConstant::INVALID_DATA_FOR_KEY;
+
+        return strtr($template, [ValidationConstant::RULE_KEY => $key]);
     }
 
     /**
@@ -103,9 +130,14 @@ trait DefaultMessages
             return 'Invalid data for ' . $key;
         }
 
+        $template = $this->getRulesToMessages()[$extract[0]] ?? ValidationConstant::INVALID_DATA_FOR_KEY;
+
         return strtr(
-            $this->getDefaultMessagesCommonRules()[$extract[0]] ?? 'Invalid data for :key',
-            [':key' => $key, ':value' => trim(implode(', ', explode(',', $extract[1])))]
+            $template,
+            [
+                ValidationConstant::RULE_KEY => $key,
+                ValidationConstant::RULE_VALUE => trim(implode(', ', explode(',', $extract[1])))
+            ]
         );
     }
 }
