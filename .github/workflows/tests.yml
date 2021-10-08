@@ -1,11 +1,7 @@
 name: Tests
 
 on:
-  pull_request:
-    branches:
-      - main
   pull_request_target:
-    types: [assigned, opened, labeled]
     branches:
       - main
   push:
