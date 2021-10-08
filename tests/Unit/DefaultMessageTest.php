@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Tests\Stubs\LowerCaseRule;
 use Tests\Stubs\Request;
 use Tests\Stubs\RequestAddRules;
 
@@ -44,6 +45,7 @@ class DefaultMessageTest extends TestCase
             'pay_link' => 'nullable|string|url|max:256',
             'video' => 'nullable|mimes:mp4,mov,avi',
             'confidentiality' => 'required|string|in:public,personal',
+            'gender' => ['required', 'string', 'in:male,female', new LowerCaseRule()],
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -106,6 +108,35 @@ class DefaultMessageTest extends TestCase
             ),
             $messages['confidentiality.in']
         );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['in'],
+                'gender',
+                'male,female'
+            ),
+            $messages['gender.in']
+        );
+        $this->assertEquals(
+            $this->createKeyMessages(
+                $request->getRulesToMessages()['required'],
+                'gender'
+            ),
+            $messages['gender.required']
+        );
+        $this->assertEquals(
+            $this->createKeyMessages(
+                $request->getRulesToMessages()['string'],
+                'gender'
+            ),
+            $messages['gender.string']
+        );
+        $this->assertEquals(
+            $this->createKeyMessages(
+                (new LowerCaseRule())->message(),
+                'gender'
+            ),
+            $messages['gender.LowerCaseRule']
+        );
     }
 
     /**
@@ -117,7 +148,7 @@ class DefaultMessageTest extends TestCase
     {
         return strtr(
             $string,
-            [':key' => $key]
+            [':attribute' => $key]
         );
     }
 
@@ -131,7 +162,7 @@ class DefaultMessageTest extends TestCase
     {
         return strtr(
             $string,
-            [':key' => $key, ':value' => trim(implode(', ', explode(',', $value)))]
+            [':attribute' => $key, ':value' => trim(implode(', ', explode(',', $value)))]
         );
     }
 }
