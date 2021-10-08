@@ -2,7 +2,8 @@ name: Tests
 
 on:
   pull_request_target:
-    types: [review_requested]
+    branches:
+      - main
   pull_request:
     branches:
       - main
