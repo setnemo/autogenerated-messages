@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Setnemo\ValidationMessages;
 
+use ReflectionClass;
+use ReflectionException;
+
 /**
  * trait DefaultMessages
  * @package Setnemo\ValidationMessages
@@ -20,6 +23,7 @@ trait DefaultMessages
         ValidationConstant::RULE_MIN,
         ValidationConstant::RULE_MAX,
         ValidationConstant::RULE_MIMES,
+        ValidationConstant::RULE_LOWERCASE,
     ];
 
     public array $addRules = [
@@ -49,14 +53,22 @@ trait DefaultMessages
 
     /**
      * @return array
+     * @throws ReflectionException
      */
     public function messages(): array
     {
         $messages = [];
 
-        foreach ($this->rules() as $key => $keyRulesAsString) {
-            $keyRules = explode(ValidationConstant::PIPELINE, $keyRulesAsString);
+        foreach ($this->rules() as $key => $keyRules) {
+            if (is_string($keyRules)) {
+                $keyRules = explode(ValidationConstant::PIPELINE, $keyRules);
+            }
             foreach ($keyRules as $keyRule) {
+                if (is_object($keyRule)) {
+                    $className = (new ReflectionClass($keyRule))->getShortName();
+                    $messages["{$key}.{$className}"] = strtr($keyRule->message(), [ValidationConstant::KEY_ATTRIBUTE => $key]);
+                    continue;
+                }
                 if (in_array($keyRule, $this->getRuleNames(), true)) {
                     $messages["{$key}.{$keyRule}"] = $this->getKeyMessage($keyRule, $key);
                     continue;
@@ -116,7 +128,7 @@ trait DefaultMessages
     {
         $template = $this->getRulesToMessages()[$keyRule] ?? ValidationConstant::INVALID_DATA_FOR_KEY;
 
-        return strtr($template, [ValidationConstant::RULE_KEY => $key]);
+        return strtr($template, [ValidationConstant::KEY_ATTRIBUTE => $key]);
     }
 
     /**
@@ -135,7 +147,7 @@ trait DefaultMessages
         return strtr(
             $template,
             [
-                ValidationConstant::RULE_KEY => $key,
+                ValidationConstant::KEY_ATTRIBUTE => $key,
                 ValidationConstant::RULE_VALUE => trim(implode(', ', explode(',', $extract[1])))
             ]
         );
