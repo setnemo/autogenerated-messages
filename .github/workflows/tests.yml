@@ -1,14 +1,14 @@
 name: Tests
 
 on:
+  pull_request_target:
+    types: [review_requested]
   pull_request:
     branches:
       - main
   push:
     branches:
       - main
-  pull_request_target:
-    types: [review_requested]
 
 jobs:
   build:
