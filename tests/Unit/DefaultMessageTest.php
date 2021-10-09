@@ -11,6 +11,7 @@ use Tests\Stubs\RequestAddRules;
 
 /**
  * Class DefaultMessageTest
+ *
  * @package Tests\Unit
  */
 class DefaultMessageTest extends TestCase
