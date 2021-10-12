@@ -16,6 +16,7 @@ class ValidationConstant
     public const RULE_REQUIRED = 'required';
     public const RULE_STRING = 'string';
     public const RULE_IN = 'in';
+    public const RULE_NOT_IN = 'not_in';
     public const RULE_MIN = 'min';
     public const RULE_URL = 'url';
     public const RULE_MAX = 'max';
@@ -51,4 +52,5 @@ class ValidationConstant
     public const MESSAGE_KEY_ACCEPTED = 'The :attribute must be yes, on, 1, or true.';
     public const MESSAGE_KEY_ARRAY = 'The :attribute must be array.';
     public const MESSAGE_KEY_BOOLEAN = 'The :attribute must be able to be cast as a boolean. Accepted input are true, false, 1 and 0.';
+    public const MESSAGE_SELECTED_VALUE_IS_INVALID = 'The selected :attribute: is invalid';
 }
