@@ -22,6 +22,13 @@ class ValidationConstant
     public const RULE_INTEGER = 'integer';
     public const RULE_MIMES = 'mimes';
     public const RULE_LOWERCASE = 'LowerCaseRule';
+    public const RULE_EMAIL = 'email';
+    public const RULE_UNIQUE = 'unique';
+    public const RULE_JSON = 'json';
+    public const RULE_IMAGE = 'image';
+    public const RULE_ACCEPTED = 'accepted';
+    public const RULE_ARRAY = 'array';
+    public const RULE_BOOLEAN = 'boolean';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
@@ -37,4 +44,11 @@ class ValidationConstant
     public const MESSAGE_KEY_IS_REQUIRED = ':attribute is required';
     public const MESSAGE_MINIMAL_VALUE_FOR_KEY_IS_VALUE = 'Minimal value for :attribute is :value';
     public const MESSAGE_ALLOWED_VALUES_FOR_KEY_VALUE = 'Allowed values for :attribute: :value';
+    public const MESSAGE_KEY_IS_EMAIL = ':attribute must have email format';
+    public const MESSAGE_KEY_UNIQUE = ':attribute already exists';
+    public const MESSAGE_KEY_JSON = ':attribute must be a valid JSON string';
+    public const MESSAGE_KEY_IMAGE = ':attribute must be an image (jpg, jpeg, png)';
+    public const MESSAGE_KEY_ACCEPTED = 'The :attribute must be yes, on, 1, or true.';
+    public const MESSAGE_KEY_ARRAY = 'The :attribute must be array.';
+    public const MESSAGE_KEY_BOOLEAN = 'The :attribute must be able to be cast as a boolean. Accepted input are true, false, 1 and 0.';
 }
