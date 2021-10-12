@@ -87,3 +87,7 @@ Or add in your project:
 $this->addRuleNames(['test_rule']);
 $this->addRulesToMessages(['test_rule' => 'test_message']);
 ```
+
+## Contributing Guide
+
+> Please check [Contributing Guide](CONTRIBUTING.md)
