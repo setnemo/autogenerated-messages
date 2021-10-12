@@ -24,6 +24,13 @@ trait DefaultMessages
         ValidationConstant::RULE_MAX,
         ValidationConstant::RULE_MIMES,
         ValidationConstant::RULE_LOWERCASE,
+        ValidationConstant::RULE_EMAIL,
+        ValidationConstant::RULE_UNIQUE,
+        ValidationConstant::RULE_JSON,
+        ValidationConstant::RULE_IMAGE,
+        ValidationConstant::RULE_ACCEPTED,
+        ValidationConstant::RULE_ARRAY,
+        ValidationConstant::RULE_BOOLEAN,
     ];
 
     public array $addRules = [
@@ -40,6 +47,13 @@ trait DefaultMessages
         ValidationConstant::RULE_MIN => ValidationConstant::MESSAGE_MINIMAL_VALUE_FOR_KEY_IS_VALUE,
         ValidationConstant::RULE_MAX => ValidationConstant::MESSAGE_MAXIMAL_VALUE_FOR_KEY_IS_VALUE,
         ValidationConstant::RULE_MIMES => ValidationConstant::MESSAGE_ALLOWED_FORMATS_FOR_KEY_VALUE,
+        ValidationConstant::RULE_EMAIL => ValidationConstant::MESSAGE_KEY_IS_EMAIL,
+        ValidationConstant::RULE_UNIQUE => ValidationConstant::MESSAGE_KEY_UNIQUE,
+        ValidationConstant::RULE_JSON => ValidationConstant::MESSAGE_KEY_JSON,
+        ValidationConstant::RULE_IMAGE => ValidationConstant::MESSAGE_KEY_IMAGE,
+        ValidationConstant::RULE_ACCEPTED => ValidationConstant::MESSAGE_KEY_ACCEPTED,
+        ValidationConstant::RULE_ARRAY => ValidationConstant::MESSAGE_KEY_ARRAY,
+        ValidationConstant::RULE_BOOLEAN => ValidationConstant::MESSAGE_KEY_BOOLEAN,
     ];
 
     public array $addRulesToMessages = [

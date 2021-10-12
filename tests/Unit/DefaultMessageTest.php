@@ -46,6 +46,9 @@ class DefaultMessageTest extends TestCase
             'video' => 'nullable|mimes:mp4,mov,avi',
             'confidentiality' => 'required|string|in:public,personal',
             'gender' => ['required', 'string', 'in:male,female', new LowerCaseRule()],
+            'email' => 'required|email|unique:users,email',
+            'admin' => 'required|boolean',
+            'image' => 'image|mimes:jpg,jpeg, png'
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -136,6 +139,45 @@ class DefaultMessageTest extends TestCase
                 'gender'
             ),
             $messages['gender.LowerCaseRule']
+        );
+
+        $this->assertEquals(
+            $this->createKeyMessages(
+                $request->getRulesToMessages()['required'],
+                'email'
+            ),
+            $messages['email.required']
+        );
+
+        $this->assertEquals(
+            $this->createKeyMessages(
+                $request->getRulesToMessages()['email'],
+                'email'
+            ),
+            $messages['email.email']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['unique'],
+                'email',
+                'users,email'
+            ),
+            $messages['email.unique']
+        );
+        $this->assertEquals(
+            $this->createKeyMessages(
+                $request->getRulesToMessages()['boolean'],
+                'admin'
+            ),
+            $messages['admin.boolean']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['image'],
+                'image',
+                'jpg,jpeg,png'
+            ),
+            $messages['image.image']
         );
     }
 
