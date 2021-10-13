@@ -48,7 +48,8 @@ class DefaultMessageTest extends TestCase
             'gender' => ['required', 'string', 'in:male,female', new LowerCaseRule()],
             'email' => 'required|email|unique:users,email',
             'admin' => 'required|boolean',
-            'image' => 'image|mimes:jpg,jpeg, png'
+            'image' => 'image|mimes:jpg,jpeg, png',
+            'id' => 'not_in:0',
         ]);
         $messages = $request->messages();
         $this->assertEquals(
