@@ -50,6 +50,7 @@ class DefaultMessageTest extends TestCase
             'admin' => 'required|boolean',
             'image' => 'image|mimes:jpg,jpeg, png',
             'id' => 'not_in:0',
+            'field1' => 'regex:/^[\w]+$/',
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -179,6 +180,14 @@ class DefaultMessageTest extends TestCase
                 'jpg,jpeg,png'
             ),
             $messages['image.image']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['regex'],
+                'field1',
+                'asdas asdsd'
+            ),
+            $messages['field1.regex']
         );
     }
 
