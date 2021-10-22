@@ -30,6 +30,8 @@ class ValidationConstant
     public const RULE_ACCEPTED = 'accepted';
     public const RULE_ARRAY = 'array';
     public const RULE_BOOLEAN = 'boolean';
+    public const RULE_REGEX = 'regex';
+    public const RULE_EXISTS = 'exists';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
@@ -53,4 +55,6 @@ class ValidationConstant
     public const MESSAGE_KEY_ARRAY = 'The :attribute must be array.';
     public const MESSAGE_KEY_BOOLEAN = 'The :attribute must be able to be cast as a boolean. Accepted input are true, false, 1 and 0.';
     public const MESSAGE_SELECTED_VALUE_IS_INVALID = 'The selected :attribute: is invalid';
+    public const MESSAGE_KEY_REGEX = 'The :attribute: format is invalid';
+    public const MESSAGE_KEY_EXISTS = 'The :attribute: doesn\'t exist';
 }
