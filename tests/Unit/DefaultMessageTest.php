@@ -51,6 +51,7 @@ class DefaultMessageTest extends TestCase
             'image' => 'image|mimes:jpg,jpeg, png',
             'id' => 'not_in:0',
             'field1' => 'regex:/^[\w]+$/',
+            'uuid' => 'uuid'
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -188,6 +189,14 @@ class DefaultMessageTest extends TestCase
                 'asdas asdsd'
             ),
             $messages['field1.regex']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['uuid'],
+                'uuid',
+                'asdas asdsd'
+            ),
+            $messages['uuid.uuid']
         );
     }
 
