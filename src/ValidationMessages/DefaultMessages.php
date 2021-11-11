@@ -34,7 +34,6 @@ trait DefaultMessages
         ValidationConstant::RULE_BOOLEAN,
         ValidationConstant::RULE_REGEX,
         ValidationConstant::RULE_EXISTS,
-        ValidationConstant::RULE_UUID,
     ];
 
     public array $addRules = [
@@ -61,7 +60,6 @@ trait DefaultMessages
         ValidationConstant::RULE_BOOLEAN => ValidationConstant::MESSAGE_KEY_BOOLEAN,
         ValidationConstant::RULE_REGEX => ValidationConstant::MESSAGE_KEY_REGEX,
         ValidationConstant::RULE_EXISTS => ValidationConstant::MESSAGE_KEY_EXISTS,
-        ValidationConstant::RULE_UUID => ValidationConstant::MESSAGE_KEY_UUID,
     ];
 
     public array $addRulesToMessages = [

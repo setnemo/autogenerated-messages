@@ -32,7 +32,6 @@ class ValidationConstant
     public const RULE_BOOLEAN = 'boolean';
     public const RULE_REGEX = 'regex';
     public const RULE_EXISTS = 'exists';
-    public const RULE_UUID = 'uuid';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
@@ -58,5 +57,4 @@ class ValidationConstant
     public const MESSAGE_SELECTED_VALUE_IS_INVALID = 'The selected :attribute: is invalid';
     public const MESSAGE_KEY_REGEX = 'The :attribute: format is invalid';
     public const MESSAGE_KEY_EXISTS = 'The :attribute: doesn\'t exist';
-    public const MESSAGE_KEY_UUID = 'The :attribute doesn\'t match UUID format';
 }
