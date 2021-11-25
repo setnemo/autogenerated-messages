@@ -51,7 +51,8 @@ class DefaultMessageTest extends TestCase
             'image' => 'image|mimes:jpg,jpeg, png',
             'id' => 'not_in:0',
             'field1' => 'regex:/^[\w]+$/',
-            'uuid' => 'uuid'
+            'uuid' => 'uuid',
+            'field2' => 'after:' . date(DATE_ATOM, time()),
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -197,6 +198,14 @@ class DefaultMessageTest extends TestCase
                 'asdas asdsd'
             ),
             $messages['uuid.uuid']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['after'],
+                'field2',
+                date(DATE_ATOM, time() - 60)
+            ),
+            $messages['field2.after']
         );
     }
 

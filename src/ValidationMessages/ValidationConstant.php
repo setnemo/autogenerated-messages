@@ -33,6 +33,7 @@ class ValidationConstant
     public const RULE_REGEX = 'regex';
     public const RULE_EXISTS = 'exists';
     public const RULE_UUID = 'uuid';
+    public const RULE_AFTER = 'after';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
@@ -59,4 +60,5 @@ class ValidationConstant
     public const MESSAGE_KEY_REGEX = 'The :attribute: format is invalid';
     public const MESSAGE_KEY_EXISTS = 'The :attribute: doesn\'t exist';
     public const MESSAGE_KEY_UUID = 'The :attribute doesn\'t match UUID format';
+    public const MESSAGE_KEY_AFTER = 'The :attribute must be a date after :value.';
 }
