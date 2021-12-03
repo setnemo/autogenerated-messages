@@ -52,7 +52,7 @@ class DefaultMessageTest extends TestCase
             'id' => 'not_in:0',
             'field1' => 'regex:/^[\w]+$/',
             'uuid' => 'uuid',
-            'field2' => 'after:' . date(DATE_ATOM, time()),
+            'field2' => 'date_format:Y-m-d H:i:s|after:' . date('Y-m-d H:i:s', time()),
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -203,7 +203,7 @@ class DefaultMessageTest extends TestCase
             $this->createKeyValueMessages(
                 $request->getRulesToMessages()['after'],
                 'field2',
-                date(DATE_ATOM, time() - 60)
+                date('Y-m-d H', time() - 60)
             ),
             $messages['field2.after']
         );
