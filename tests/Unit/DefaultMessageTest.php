@@ -38,7 +38,9 @@ class DefaultMessageTest extends TestCase
      */
     public function messagesTest(): void
     {
-        $request = new Request([
+        $timestamp = time();
+        $date = date(DATE_W3C, $timestamp);
+        $request   = new Request([
             'name' => 'required|string|max:120',
             'start_date' => 'required|integer',
             'price' => 'nullable|numeric|min:0 ',
@@ -52,7 +54,7 @@ class DefaultMessageTest extends TestCase
             'id' => 'not_in:0',
             'field1' => 'regex:/^[\w]+$/',
             'uuid' => 'uuid',
-            'field2' => 'after:' . date(DATE_ATOM, time()),
+            'field2' => 'after:' . $date,
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -199,13 +201,13 @@ class DefaultMessageTest extends TestCase
             ),
             $messages['uuid.uuid']
         );
-        $this->assertEquals(
+        $this->assertStringContainsString(
+            'The field2 must be a date after ',
             $this->createKeyValueMessages(
                 $request->getRulesToMessages()['after'],
                 'field2',
-                date(DATE_ATOM, time() - 60)
-            ),
-            $messages['field2.after']
+                $date
+            )
         );
     }
 
