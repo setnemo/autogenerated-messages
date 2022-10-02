@@ -55,6 +55,10 @@ class DefaultMessageTest extends TestCase
             'field1' => 'regex:/^[\w]+$/',
             'uuid' => 'uuid',
             'field2' => 'after:' . $date,
+            'local_ip' => 'required|ip',
+            'local_ipv4' => 'required|ip|ipv4',
+            'local_ipv6' => 'required|ip|ipv6',
+            'mac_address' => 'required|mac_address'
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -208,6 +212,38 @@ class DefaultMessageTest extends TestCase
                 'field2',
                 $date
             )
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['ip'],
+                'local_ip',
+                '0.0.0.0'
+            ),
+            $messages['local_ip.ip']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['ipv4'],
+                'local_ipv4',
+                '0.0.0.0'
+            ),
+            $messages['local_ipv4.ipv4']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['ipv6'],
+                'local_ipv6',
+                '00:10:0b:de:62:48:ad:5a'
+            ),
+            $messages['local_ipv6.ipv6']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['mac_address'],
+                'mac_address',
+                'xx:xx:xx:xx:xx'
+            ),
+            $messages['mac_address.mac_address']
         );
     }
 
