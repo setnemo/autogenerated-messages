@@ -34,6 +34,10 @@ class ValidationConstant
     public const RULE_EXISTS = 'exists';
     public const RULE_UUID = 'uuid';
     public const RULE_AFTER = 'after';
+    public const RULE_IP = 'ip';
+    public const RULE_IPV4 = 'ipv4';
+    public const RULE_IPV6 = 'ipv6';
+    public const RULE_MAC_ADDRESS = 'mac_address';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
@@ -61,4 +65,8 @@ class ValidationConstant
     public const MESSAGE_KEY_EXISTS = 'The :attribute: doesn\'t exist';
     public const MESSAGE_KEY_UUID = 'The :attribute doesn\'t match UUID format';
     public const MESSAGE_KEY_AFTER = 'The :attribute must be a date after :value.';
+    public const MESSAGE_KEY_IP = 'The :attribute must be a valid IP address';
+    public const MESSAGE_KEY_IPV4 = 'The :attribute must be a valid IPv4 address';
+    public const MESSAGE_KEY_IPV6 = 'The :attribute must be a valid IPv6 address';
+    public const MESSAGE_KEY_MAC = 'The :attribute must be a valid MAC address.';
 }
