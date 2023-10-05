@@ -40,6 +40,9 @@ class ValidationConstant
     public const RULE_MAC_ADDRESS = 'mac_address';
     public const RULE_STARTS_WITH = 'starts_with';
     public const RULE_ENDS_WITH = 'ends_with';
+    public const RULE_DOESNT_START_WITH = 'doesnt_start_with';
+    public const RULE_DOESNT_END_WITH = 'doesnt_end_with';
+    public const RULE_MULTIPLE_OF = 'multiple_of';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
@@ -73,4 +76,6 @@ class ValidationConstant
     public const MESSAGE_KEY_MAC = 'The :attribute must be a valid MAC address.';
     public const MESSAGE_KEY_STARTS_WITH = 'The :attribute should start with :value';
     public const MESSAGE_KEY_ENDS_WITH = 'The :attribute should end with :value';
+    public const MESSAGE_KEY_DOESNT_START_WITH = 'The :attribute cannot start with :value';
+    public const MESSAGE_KEY_DOESNT_END_WITH = 'The :attribute cannot end with :value';
 }
