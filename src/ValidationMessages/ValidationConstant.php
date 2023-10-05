@@ -38,6 +38,8 @@ class ValidationConstant
     public const RULE_IPV4 = 'ipv4';
     public const RULE_IPV6 = 'ipv6';
     public const RULE_MAC_ADDRESS = 'mac_address';
+    public const RULE_STARTS_WITH = 'starts_with';
+    public const RULE_ENDS_WITH = 'ends_with';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
@@ -69,4 +71,6 @@ class ValidationConstant
     public const MESSAGE_KEY_IPV4 = 'The :attribute must be a valid IPv4 address';
     public const MESSAGE_KEY_IPV6 = 'The :attribute must be a valid IPv6 address';
     public const MESSAGE_KEY_MAC = 'The :attribute must be a valid MAC address.';
+    public const MESSAGE_KEY_STARTS_WITH = 'The :attribute should start with :value';
+    public const MESSAGE_KEY_ENDS_WITH = 'The :attribute should end with :value';
 }
