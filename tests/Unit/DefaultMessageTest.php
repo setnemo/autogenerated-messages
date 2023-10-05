@@ -282,6 +282,14 @@ class DefaultMessageTest extends TestCase
             ),
             $messages['doesnt_end_with.doesnt_end_with']
         );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['multiple_of'],
+                'multiple_of',
+                '2'
+            ),
+            $messages['multiple_of.multiple_of']
+        );
     }
 
     /**

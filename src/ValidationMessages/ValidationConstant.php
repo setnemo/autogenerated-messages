@@ -78,4 +78,5 @@ class ValidationConstant
     public const MESSAGE_KEY_ENDS_WITH = 'The :attribute should end with :value';
     public const MESSAGE_KEY_DOESNT_START_WITH = 'The :attribute cannot start with :value';
     public const MESSAGE_KEY_DOESNT_END_WITH = 'The :attribute cannot end with :value';
+    public const MESSAGE_KEY_MULTIPLE_OF = 'The :attribute must be a multiple of :value';
 }
