@@ -39,7 +39,9 @@ trait DefaultMessages
         ValidationConstant::RULE_IP,
         ValidationConstant::RULE_IPV4,
         ValidationConstant::RULE_IPV6,
-        ValidationConstant::RULE_MAC_ADDRESS
+        ValidationConstant::RULE_MAC_ADDRESS,
+        ValidationConstant::RULE_STARTS_WITH,
+        ValidationConstant::RULE_ENDS_WITH,
     ];
 
     public array $addRules = [
@@ -71,7 +73,9 @@ trait DefaultMessages
         ValidationConstant::RULE_IP => ValidationConstant::MESSAGE_KEY_IP,
         ValidationConstant::RULE_IPV4 => ValidationConstant::MESSAGE_KEY_IPV4,
         ValidationConstant::RULE_IPV6 => ValidationConstant::MESSAGE_KEY_IPV6,
-        ValidationConstant::RULE_MAC_ADDRESS => ValidationConstant::MESSAGE_KEY_MAC
+        ValidationConstant::RULE_MAC_ADDRESS => ValidationConstant::MESSAGE_KEY_MAC,
+        ValidationConstant::RULE_STARTS_WITH => ValidationConstant::MESSAGE_KEY_STARTS_WITH,
+        ValidationConstant::RULE_ENDS_WITH => ValidationConstant::MESSAGE_KEY_ENDS_WITH,
     ];
 
     public array $addRulesToMessages = [
