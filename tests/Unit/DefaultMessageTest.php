@@ -58,7 +58,9 @@ class DefaultMessageTest extends TestCase
             'local_ip' => 'required|ip',
             'local_ipv4' => 'required|ip|ipv4',
             'local_ipv6' => 'required|ip|ipv6',
-            'mac_address' => 'required|mac_address'
+            'mac_address' => 'required|mac_address',
+            'starts_with' => 'required|starts_with:foo',
+            'ends_with' => 'required|ends_with:bar',
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -244,6 +246,22 @@ class DefaultMessageTest extends TestCase
                 'xx:xx:xx:xx:xx'
             ),
             $messages['mac_address.mac_address']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['starts_with'],
+                'starts_with',
+                'foo'
+            ),
+            $messages['starts_with.starts_with']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['ends_with'],
+                'ends_with',
+                'bar'
+            ),
+            $messages['ends_with.ends_with']
         );
     }
 
