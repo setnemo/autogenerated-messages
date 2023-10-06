@@ -61,6 +61,9 @@ class DefaultMessageTest extends TestCase
             'mac_address' => 'required|mac_address',
             'starts_with' => 'required|starts_with:foo',
             'ends_with' => 'required|ends_with:bar',
+            'doesnt_start_with' => 'required|doesnt_start_with:cannot_foo',
+            'doesnt_end_with' => 'required|doesnt_end_with:cannot_bar',
+            'multiple_of' => 'required|multiple_of:2'
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -262,6 +265,22 @@ class DefaultMessageTest extends TestCase
                 'bar'
             ),
             $messages['ends_with.ends_with']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['doesnt_start_with'],
+                'doesnt_start_with',
+                'cannot_foo'
+            ),
+            $messages['doesnt_start_with.doesnt_start_with']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['doesnt_end_with'],
+                'doesnt_end_with',
+                'cannot_bar'
+            ),
+            $messages['doesnt_end_with.doesnt_end_with']
         );
     }
 
