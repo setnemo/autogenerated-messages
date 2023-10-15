@@ -63,7 +63,8 @@ class DefaultMessageTest extends TestCase
             'ends_with' => 'required|ends_with:bar',
             'doesnt_start_with' => 'required|doesnt_start_with:cannot_foo',
             'doesnt_end_with' => 'required|doesnt_end_with:cannot_bar',
-            'multiple_of' => 'required|multiple_of:2'
+            'multiple_of' => 'required|multiple_of:2',
+            'same' => 'required|same:field1',
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -289,6 +290,14 @@ class DefaultMessageTest extends TestCase
                 '2'
             ),
             $messages['multiple_of.multiple_of']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['same'],
+                'same',
+                'field1'
+            ),
+            $messages['same.same']
         );
     }
 

@@ -43,11 +43,13 @@ class ValidationConstant
     public const RULE_DOESNT_START_WITH = 'doesnt_start_with';
     public const RULE_DOESNT_END_WITH = 'doesnt_end_with';
     public const RULE_MULTIPLE_OF = 'multiple_of';
+    public const RULE_SAME = 'same';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
-
+    
     public const KEY_ATTRIBUTE = ':attribute';
+    public const KEY_OTHER = ':other';
     public const INVALID_DATA_FOR_KEY = 'Invalid data for :attribute';
     public const MESSAGE_MAXIMAL_VALUE_FOR_KEY_IS_VALUE = 'Maximal value for :attribute is :value';
     public const MESSAGE_VALUE_FOR_KEY_MUST_BE_INTEGER = 'Value for :attribute must be integer';
@@ -79,4 +81,5 @@ class ValidationConstant
     public const MESSAGE_KEY_DOESNT_START_WITH = 'The :attribute cannot start with :value';
     public const MESSAGE_KEY_DOESNT_END_WITH = 'The :attribute cannot end with :value';
     public const MESSAGE_KEY_MULTIPLE_OF = 'The :attribute must be a multiple of :value';
+    public const MESSAGE_KEY_SAME ='The :attribute and :other must match';
 }

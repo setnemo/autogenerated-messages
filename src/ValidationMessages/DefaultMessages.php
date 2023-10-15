@@ -45,6 +45,7 @@ trait DefaultMessages
         ValidationConstant::RULE_DOESNT_START_WITH,
         ValidationConstant::RULE_DOESNT_END_WITH,
         ValidationConstant::RULE_MULTIPLE_OF,
+        ValidationConstant::RULE_SAME,
     ];
 
     public array $addRules = [
@@ -82,6 +83,7 @@ trait DefaultMessages
         ValidationConstant::RULE_DOESNT_START_WITH => ValidationConstant::MESSAGE_KEY_DOESNT_START_WITH,
         ValidationConstant::RULE_DOESNT_END_WITH => ValidationConstant::MESSAGE_KEY_DOESNT_END_WITH,
         ValidationConstant::RULE_MULTIPLE_OF => ValidationConstant::MESSAGE_KEY_MULTIPLE_OF,
+        ValidationConstant::RULE_SAME => ValidationConstant::MESSAGE_KEY_SAME,
     ];
 
     public array $addRulesToMessages = [
