@@ -192,7 +192,8 @@ trait DefaultMessages
             $template,
             [
                 ValidationConstant::KEY_ATTRIBUTE => $key,
-                ValidationConstant::RULE_VALUE => trim(implode(', ', explode(',', $extract[1])))
+                ValidationConstant::RULE_VALUE => trim(implode(', ', explode(',', $extract[1]))),
+                ValidationConstant::KEY_OTHER => $extract[1],
             ]
         );
     }

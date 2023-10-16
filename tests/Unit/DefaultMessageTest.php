@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Psalm\Internal\Type\ArrayType;
 use Tests\Stubs\LowerCaseRule;
 use Tests\Stubs\Request;
 use Tests\Stubs\RequestAddRules;
@@ -40,7 +41,7 @@ class DefaultMessageTest extends TestCase
     {
         $timestamp = time();
         $date = date(DATE_W3C, $timestamp);
-        $request   = new Request([
+        $request  = new Request([
             'name' => 'required|string|max:120',
             'start_date' => 'required|integer',
             'price' => 'nullable|numeric|min:0 ',
@@ -301,6 +302,13 @@ class DefaultMessageTest extends TestCase
         );
     }
 
+    public static function dataValidation(): array
+    {
+        return [
+
+        ];
+    }
+
     /**
      * @param string $string
      * @param string $key
@@ -324,7 +332,7 @@ class DefaultMessageTest extends TestCase
     {
         return strtr(
             $string,
-            [':attribute' => $key, ':value' => trim(implode(', ', explode(',', $value)))]
+            [':attribute' => $key, ':value' => trim(implode(', ', explode(',', $value))), ':other' => $value]
         );
     }
 }
