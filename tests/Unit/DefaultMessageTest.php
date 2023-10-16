@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Psalm\Internal\Type\ArrayType;
 use Tests\Stubs\LowerCaseRule;
 use Tests\Stubs\Request;
 use Tests\Stubs\RequestAddRules;
@@ -17,18 +16,60 @@ use Tests\Stubs\RequestAddRules;
 class DefaultMessageTest extends TestCase
 {
     /**
+     * @var Request
+     */
+    private static Request $request;
+
+    /**
+     * This method is called before the first test of this test class is run.
+     */
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        self::$request  = new Request([
+            'key_required' => 'required',
+            'key_string' => 'string',
+            'key_integer' => 'integer',
+            'key_numeric' => 'numeric',
+            'key_max' => 'max:120',
+            'key_min' => 'min:0',
+            'key_mimes' => 'mimes:mp4,mov,avi',
+            'key_in' => 'in:public,personal',
+            'key_lower_case' => [new LowerCaseRule()],
+            'key_email' => 'email',
+            'key_unique' => 'unique:users,email',
+            'key_boolean' => 'boolean',
+            'key_image' => 'image|mimes:jpg,jpeg, png',
+            'key_regex' => 'regex:/^[\w]+$/',
+            'key_uuid' => 'uuid',
+            'key_after' => 'after:' . 'tomorrow',
+            'key_ip' => 'ip',
+            'key_ipv4' => 'ip|ipv4',
+            'key_ipv6' => 'ip|ipv6',
+            'key_mac_address' => 'mac_address',
+            'key_starts_with' => 'starts_with:foo',
+            'key_ends_with' => 'ends_with:bar',
+            'key_doesnt_start_with' => 'doesnt_start_with:cannot_foo',
+            'key_doesnt_end_with' => 'doesnt_end_with:cannot_bar',
+            'key_multiple_of' => 'multiple_of:2',
+            'key_same' => 'same:field1',
+        ]); 
+    }
+
+    /**
      * @test
      */
     public function addRulesTest(): void
     {
-        $request = new RequestAddRules([
+        $requestAddRules = new RequestAddRules([
             'test_key' => 'test_rule',
         ]);
-        $messages = $request->messages();
+        $messages = $requestAddRules->messages();
         $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['test_rule'],
-                'test_key'
+            $requestAddRules->getKeyMessage(
+                'test_rule',
+                'test_key',
             ),
             $messages['test_key.test_rule']
         );
@@ -36,303 +77,79 @@ class DefaultMessageTest extends TestCase
 
     /**
      * @test
+     * @dataProvider additionProvider
      */
-    public function messagesTest(): void
+    public function messagesTest(string $key, string $messageKey, string|object $keyRule, string $value = ''): void
     {
-        $timestamp = time();
-        $date = date(DATE_W3C, $timestamp);
-        $request  = new Request([
-            'name' => 'required|string|max:120',
-            'start_date' => 'required|integer',
-            'price' => 'nullable|numeric|min:0 ',
-            'pay_link' => 'nullable|string|url|max:256',
-            'video' => 'nullable|mimes:mp4,mov,avi',
-            'confidentiality' => 'required|string|in:public,personal',
-            'gender' => ['required', 'string', 'in:male,female', new LowerCaseRule()],
-            'email' => 'required|email|unique:users,email',
-            'admin' => 'required|boolean',
-            'image' => 'image|mimes:jpg,jpeg, png',
-            'id' => 'not_in:0',
-            'field1' => 'regex:/^[\w]+$/',
-            'uuid' => 'uuid',
-            'field2' => 'after:' . $date,
-            'local_ip' => 'required|ip',
-            'local_ipv4' => 'required|ip|ipv4',
-            'local_ipv6' => 'required|ip|ipv6',
-            'mac_address' => 'required|mac_address',
-            'starts_with' => 'required|starts_with:foo',
-            'ends_with' => 'required|ends_with:bar',
-            'doesnt_start_with' => 'required|doesnt_start_with:cannot_foo',
-            'doesnt_end_with' => 'required|doesnt_end_with:cannot_bar',
-            'multiple_of' => 'required|multiple_of:2',
-            'same' => 'required|same:field1',
-        ]);
+        $request = self::$request;
         $messages = $request->messages();
-        $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['required'],
-                'name'
-            ),
-            $messages['name.required']
-        );
-        $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['string'],
-                'name'
-            ),
-            $messages['name.string']
-        );
-        $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['integer'],
-                'start_date'
-            ),
-            $messages['start_date.integer']
-        );
-        $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['numeric'],
-                'price'
-            ),
-            $messages['price.numeric']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['max'],
-                'name',
-                '120'
-            ),
-            $messages['name.max']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['min'],
-                'price',
-                '0'
-            ),
-            $messages['price.min']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['mimes'],
-                'video',
-                'mp4,mov,avi'
-            ),
-            $messages['video.mimes']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['in'],
-                'confidentiality',
-                'public,personal'
-            ),
-            $messages['confidentiality.in']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['in'],
-                'gender',
-                'male,female'
-            ),
-            $messages['gender.in']
-        );
-        $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['required'],
-                'gender'
-            ),
-            $messages['gender.required']
-        );
-        $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['string'],
-                'gender'
-            ),
-            $messages['gender.string']
-        );
-        $this->assertEquals(
-            $this->createKeyMessages(
-                (new LowerCaseRule())->message(),
-                'gender'
-            ),
-            $messages['gender.LowerCaseRule']
-        );
 
-        $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['required'],
-                'email'
-            ),
-            $messages['email.required']
-        );
-
-        $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['email'],
-                'email'
-            ),
-            $messages['email.email']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['unique'],
-                'email',
-                'users,email'
-            ),
-            $messages['email.unique']
-        );
-        $this->assertEquals(
-            $this->createKeyMessages(
-                $request->getRulesToMessages()['boolean'],
-                'admin'
-            ),
-            $messages['admin.boolean']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['image'],
-                'image',
-                'jpg,jpeg,png'
-            ),
-            $messages['image.image']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['regex'],
-                'field1',
-                'asdas asdsd'
-            ),
-            $messages['field1.regex']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['uuid'],
-                'uuid',
-                'asdas asdsd'
-            ),
-            $messages['uuid.uuid']
-        );
-        $this->assertStringContainsString(
-            'The field2 must be a date after ',
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['after'],
-                'field2',
-                $date
-            )
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['ip'],
-                'local_ip',
-                '0.0.0.0'
-            ),
-            $messages['local_ip.ip']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['ipv4'],
-                'local_ipv4',
-                '0.0.0.0'
-            ),
-            $messages['local_ipv4.ipv4']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['ipv6'],
-                'local_ipv6',
-                '00:10:0b:de:62:48:ad:5a'
-            ),
-            $messages['local_ipv6.ipv6']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['mac_address'],
-                'mac_address',
-                'xx:xx:xx:xx:xx'
-            ),
-            $messages['mac_address.mac_address']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['starts_with'],
-                'starts_with',
-                'foo'
-            ),
-            $messages['starts_with.starts_with']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['ends_with'],
-                'ends_with',
-                'bar'
-            ),
-            $messages['ends_with.ends_with']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['doesnt_start_with'],
-                'doesnt_start_with',
-                'cannot_foo'
-            ),
-            $messages['doesnt_start_with.doesnt_start_with']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['doesnt_end_with'],
-                'doesnt_end_with',
-                'cannot_bar'
-            ),
-            $messages['doesnt_end_with.doesnt_end_with']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['multiple_of'],
-                'multiple_of',
-                '2'
-            ),
-            $messages['multiple_of.multiple_of']
-        );
-        $this->assertEquals(
-            $this->createKeyValueMessages(
-                $request->getRulesToMessages()['same'],
-                'same',
-                'field1'
-            ),
-            $messages['same.same']
-        );
+        if(is_object($keyRule)) {
+            $this->assertEquals(
+                $request->getKeyObjectMessage(
+                    new LowerCaseRule(),
+                    $key
+                ),
+                $messages[$messageKey]
+            );
+        }
+     
+        if(is_string($keyRule) ) {
+            if($value === '') {
+                $this->assertEquals(
+                    $request->getKeyMessage(
+                        $keyRule,
+                        $key
+                    ),
+                    $messages[$messageKey]
+                ); 
+            }
+    
+            if($value !== '') {
+                $this->assertEquals(
+                    $request->getKeyValueMessage(
+                        $keyRule,
+                        $key,
+                        $value
+                    ),
+                    $messages[$messageKey]
+                );
+            }
+        }
     }
 
-    public static function dataValidation(): array
+    /**
+     * @return array
+     */
+    public static function additionProvider(): array
     {
         return [
-
+            'test_required' => ['key_required', 'key_required.required', 'required'],
+            'test_string' => ['key_string', 'key_string.string', 'string'],
+            'test_integer' => ['key_integer', 'key_integer.integer', 'integer'],
+            'test_numeric' => ['key_numeric', 'key_numeric.numeric', 'numeric'],
+            'test_max' => ['key_max', 'key_max.max', 'max', '120'],
+            'test_min' => ['key_min', 'key_min.min', 'min', '0'],
+            'test_mimes' => ['key_mimes', 'key_mimes.mimes', 'mimes', 'mp4,mov,avi'],
+            'test_in' => ['key_in', 'key_in.in', 'in', 'public,personal'],
+            'test_lower_case' => ['key_lower_case', 'key_lower_case.LowerCaseRule', new LowerCaseRule()],
+            'test_email' => ['key_email', 'key_email.email', 'email'],
+            'test_unique' => ['key_unique', 'key_unique.unique', 'unique', 'users,email'],
+            'test_boolean' => ['key_boolean', 'key_boolean.boolean', 'boolean'],
+            'test_image' => ['key_image', 'key_image.image', 'image', 'jpg,jpeg,png'],
+            'test_regex' => ['key_regex', 'key_regex.regex', 'regex', 'asdas asdsd'],
+            'test_uuid' => ['key_uuid', 'key_uuid.uuid', 'uuid', 'asdas asdsd'],
+            'test_after' => ['key_after', 'key_after.after', 'after', 'tomorrow'],
+            'test_ip' => ['key_ip', 'key_ip.ip', 'ip', '0.0.0.0'],
+            'test_ipv4' => ['key_ipv4', 'key_ipv4.ipv4', 'ipv4', '0.0.0.0'],
+            'test_ipv6' => ['key_ipv6', 'key_ipv6.ipv6', 'ipv6', '00:10:0b:de:62:48:ad:5a'],
+            'test_mac_address' => ['key_mac_address', 'key_mac_address.mac_address', 'mac_address', 'xx:xx:xx:xx:xx'],
+            'test_starts_with' => ['key_starts_with', 'key_starts_with.starts_with', 'starts_with', 'foo'],
+            'test_ends_with' => ['key_ends_with', 'key_ends_with.ends_with', 'ends_with', 'bar'],
+            'test_doesnt_start_with' => ['key_doesnt_start_with', 'key_doesnt_start_with.doesnt_start_with', 'doesnt_start_with', 'cannot_foo'],
+            'test_doesnt_end_with' => ['key_doesnt_end_with', 'key_doesnt_end_with.doesnt_end_with', 'doesnt_end_with',  'cannot_bar'],
+            'test_multiple_of' => ['key_multiple_of', 'key_multiple_of.multiple_of', 'multiple_of', '2'],
+            'test_same' => ['key_same', 'key_same.same', 'same', 'field1'],
         ];
-    }
-
-    /**
-     * @param string $string
-     * @param string $key
-     * @return string
-     */
-    private function createKeyMessages(string $string, string $key): string
-    {
-        return strtr(
-            $string,
-            [':attribute' => $key]
-        );
-    }
-
-    /**
-     * @param string $string
-     * @param string $key
-     * @param string $value
-     * @return string
-     */
-    private function createKeyValueMessages(string $string, string $key, string $value): string
-    {
-        return strtr(
-            $string,
-            [':attribute' => $key, ':value' => trim(implode(', ', explode(',', $value))), ':other' => $value]
-        );
     }
 }
