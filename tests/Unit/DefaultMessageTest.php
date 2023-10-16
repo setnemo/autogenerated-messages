@@ -54,7 +54,7 @@ class DefaultMessageTest extends TestCase
             'key_doesnt_end_with' => 'doesnt_end_with:cannot_bar',
             'key_multiple_of' => 'multiple_of:2',
             'key_same' => 'same:field1',
-        ]); 
+        ]);
     }
 
     /**
@@ -84,7 +84,7 @@ class DefaultMessageTest extends TestCase
         $request = self::$request;
         $messages = $request->messages();
 
-        if(is_object($keyRule)) {
+        if (is_object($keyRule)) {
             $this->assertEquals(
                 $request->getKeyObjectMessage(
                     new LowerCaseRule(),
@@ -93,19 +93,19 @@ class DefaultMessageTest extends TestCase
                 $messages[$messageKey]
             );
         }
-     
-        if(is_string($keyRule) ) {
-            if($value === '') {
+
+        if (is_string($keyRule)) {
+            if ($value === '') {
                 $this->assertEquals(
                     $request->getKeyMessage(
                         $keyRule,
                         $key
                     ),
                     $messages[$messageKey]
-                ); 
+                );
             }
-    
-            if($value !== '') {
+
+            if ($value !== '') {
                 $this->assertEquals(
                     $request->getKeyValueMessage(
                         $keyRule,
@@ -146,8 +146,18 @@ class DefaultMessageTest extends TestCase
             'test_mac_address' => ['key_mac_address', 'key_mac_address.mac_address', 'mac_address', 'xx:xx:xx:xx:xx'],
             'test_starts_with' => ['key_starts_with', 'key_starts_with.starts_with', 'starts_with', 'foo'],
             'test_ends_with' => ['key_ends_with', 'key_ends_with.ends_with', 'ends_with', 'bar'],
-            'test_doesnt_start_with' => ['key_doesnt_start_with', 'key_doesnt_start_with.doesnt_start_with', 'doesnt_start_with', 'cannot_foo'],
-            'test_doesnt_end_with' => ['key_doesnt_end_with', 'key_doesnt_end_with.doesnt_end_with', 'doesnt_end_with',  'cannot_bar'],
+            'test_doesnt_start_with' => [
+                'key_doesnt_start_with',
+                'key_doesnt_start_with.doesnt_start_with',
+                'doesnt_start_with',
+                'cannot_foo'
+            ],
+            'test_doesnt_end_with' => [
+                'key_doesnt_end_with',
+                'key_doesnt_end_with.doesnt_end_with',
+                'doesnt_end_with',
+                'cannot_bar'
+            ],
             'test_multiple_of' => ['key_multiple_of', 'key_multiple_of.multiple_of', 'multiple_of', '2'],
             'test_same' => ['key_same', 'key_same.same', 'same', 'field1'],
         ];

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -47,5 +47,3 @@ trait ValidationServices
         return strtr($objectRule->message(), [ValidationConstant::KEY_ATTRIBUTE => $key]);
     }
 }
-
-?>
