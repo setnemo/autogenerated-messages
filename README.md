@@ -96,7 +96,8 @@ Right now project supported next validation types:
     'ends_with',
     'doesnt_start_with',
     'doesnt_end_with',
-    'multiple_of'
+    'multiple_of',
+    'same'
 ];
 ```
 
