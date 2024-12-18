@@ -13,6 +13,8 @@ use ReflectionException;
  */
 trait DefaultMessages
 {
+    use ValidationServices;
+
     public array $ruleNames = [
         ValidationConstant::RULE_REQUIRED,
         ValidationConstant::RULE_INTEGER,
@@ -110,7 +112,7 @@ trait DefaultMessages
             foreach ($keyRules as $keyRule) {
                 if (is_object($keyRule)) {
                     $className = (new ReflectionClass($keyRule))->getShortName();
-                    $messages["{$key}.{$className}"] = strtr($keyRule->message(), [ValidationConstant::KEY_ATTRIBUTE => $key]);
+                    $messages["{$key}.{$className}"] = $this->getKeyObjectMessage($keyRule, $key);
                     continue;
                 }
                 if (in_array($keyRule, $this->getRuleNames(), true)) {
@@ -119,7 +121,7 @@ trait DefaultMessages
                 }
                 $extract = explode(ValidationConstant::COLON, $keyRule);
                 if (isset($extract[1]) && in_array($extract[0], $this->getRuleNames(), true)) {
-                    $messages["{$key}.{$extract[0]}"] = $this->getKeyValueMessage($extract, $key);
+                    $messages["{$key}.{$extract[0]}"] = $this->getKeyValueMessage($extract[0], $key, $extract[1]);
                 }
             }
         }
@@ -161,39 +163,5 @@ trait DefaultMessages
         $this->addRulesToMessages = array_merge($this->addRulesToMessages, $newRules);
 
         return $this;
-    }
-
-    /**
-     * @param string $keyRule
-     * @param string $key
-     * @return string
-     */
-    protected function getKeyMessage(string $keyRule, string $key): string
-    {
-        $template = $this->getRulesToMessages()[$keyRule] ?? ValidationConstant::INVALID_DATA_FOR_KEY;
-
-        return strtr($template, [ValidationConstant::KEY_ATTRIBUTE => $key]);
-    }
-
-    /**
-     * @param array $extract
-     * @param string $key
-     * @return string
-     */
-    protected function getKeyValueMessage(array $extract = [], string $key = ''): string
-    {
-        if ([] == $extract) {
-            return 'Invalid data for ' . $key;
-        }
-
-        $template = $this->getRulesToMessages()[$extract[0]] ?? ValidationConstant::INVALID_DATA_FOR_KEY;
-
-        return strtr(
-            $template,
-            [
-                ValidationConstant::KEY_ATTRIBUTE => $key,
-                ValidationConstant::RULE_VALUE => trim(implode(', ', explode(',', $extract[1])))
-            ]
-        );
     }
 }
