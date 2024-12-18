@@ -47,6 +47,7 @@ class ValidationConstant
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
+    
     public const KEY_ATTRIBUTE = ':attribute';
     public const KEY_OTHER = ':other';
     public const INVALID_DATA_FOR_KEY = 'Invalid data for :attribute';
@@ -65,8 +66,7 @@ class ValidationConstant
     public const MESSAGE_KEY_IMAGE = ':attribute must be an image (jpg, jpeg, png)';
     public const MESSAGE_KEY_ACCEPTED = 'The :attribute must be yes, on, 1, or true.';
     public const MESSAGE_KEY_ARRAY = 'The :attribute must be array.';
-    public const MESSAGE_KEY_BOOLEAN = 'The :attribute must be able to be cast as a boolean. 
-                                        Accepted input are true, false, 1 and 0.';
+    public const MESSAGE_KEY_BOOLEAN = 'The :attribute must be able to be cast as a boolean. Accepted input are true, false, 1 and 0.';
     public const MESSAGE_SELECTED_VALUE_IS_INVALID = 'The selected :attribute: is invalid';
     public const MESSAGE_KEY_REGEX = 'The :attribute: format is invalid';
     public const MESSAGE_KEY_EXISTS = 'The :attribute: doesn\'t exist';
@@ -81,5 +81,5 @@ class ValidationConstant
     public const MESSAGE_KEY_DOESNT_START_WITH = 'The :attribute cannot start with :value';
     public const MESSAGE_KEY_DOESNT_END_WITH = 'The :attribute cannot end with :value';
     public const MESSAGE_KEY_MULTIPLE_OF = 'The :attribute must be a multiple of :value';
-    public const MESSAGE_KEY_SAME = 'The :attribute and :other must match';
+    public const MESSAGE_KEY_SAME ='The :attribute and :other must match';
 }
