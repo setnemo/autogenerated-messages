@@ -18,6 +18,25 @@ class DefaultMessageTest extends TestCase
     /**
      * @test
      */
+    public function ulidAndConfirmedMessagesTest(): void
+    {
+        $request = new Request([
+            'id' => 'ulid',
+            'password' => 'confirmed',
+        ]);
+
+        $this->assertSame(
+            [
+                'id.ulid' => 'The id must be a valid ULID',
+                'password.confirmed' => 'The password confirmation does not match',
+            ],
+            $request->messages()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function addRulesTest(): void
     {
         $request = new RequestAddRules([
