@@ -44,6 +44,8 @@ class ValidationConstant
     public const RULE_DOESNT_END_WITH = 'doesnt_end_with';
     public const RULE_MULTIPLE_OF = 'multiple_of';
     public const RULE_SAME = 'same';
+    public const RULE_DIGITS = 'digits';
+    public const RULE_CNPJ = 'cnpj';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
@@ -82,4 +84,6 @@ class ValidationConstant
     public const MESSAGE_KEY_DOESNT_END_WITH = 'The :attribute cannot end with :value';
     public const MESSAGE_KEY_MULTIPLE_OF = 'The :attribute must be a multiple of :value';
     public const MESSAGE_KEY_SAME = 'The :attribute and :other must match';
+    public const MESSAGE_KEY_DIGITS = 'The :attribute must be :value digits.';
+    public const MESSAGE_KEY_CNPJ = 'The :attribute must be a valid CNPJ';
 }
