@@ -44,6 +44,8 @@ class ValidationConstant
     public const RULE_DOESNT_END_WITH = 'doesnt_end_with';
     public const RULE_MULTIPLE_OF = 'multiple_of';
     public const RULE_SAME = 'same';
+    public const RULE_CONFIRMED = 'confirmed';
+    public const RULE_ULID = 'ulid';
 
     public const RULE_NUMERIC = 'numeric';
     public const RULE_VALUE = ':value';
@@ -82,4 +84,6 @@ class ValidationConstant
     public const MESSAGE_KEY_DOESNT_END_WITH = 'The :attribute cannot end with :value';
     public const MESSAGE_KEY_MULTIPLE_OF = 'The :attribute must be a multiple of :value';
     public const MESSAGE_KEY_SAME = 'The :attribute and :other must match';
+    public const MESSAGE_KEY_CONFIRMED = 'The :attribute confirmation does not match';
+    public const MESSAGE_KEY_ULID = 'The :attribute must be a valid ULID';
 }
