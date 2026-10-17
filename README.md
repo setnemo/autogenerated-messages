@@ -97,7 +97,9 @@ Right now project supported next validation types:
     'doesnt_start_with',
     'doesnt_end_with',
     'multiple_of',
-    'same'
+    'same',
+    'digits',
+    'cnpj'
 ];
 ```
 

@@ -65,6 +65,8 @@ class DefaultMessageTest extends TestCase
             'doesnt_end_with' => 'required|doesnt_end_with:cannot_bar',
             'multiple_of' => 'required|multiple_of:2',
             'same' => 'required|same:field1',
+            'digits' => 'required|digits:4',
+            'cnpj' => 'cnpj',
         ]);
         $messages = $request->messages();
         $this->assertEquals(
@@ -298,6 +300,21 @@ class DefaultMessageTest extends TestCase
                 'field1'
             ),
             $messages['same.same']
+        );
+        $this->assertEquals(
+            $this->createKeyValueMessages(
+                $request->getRulesToMessages()['digits'],
+                'digits',
+                '4'
+            ),
+            $messages['digits.digits']
+        );
+        $this->assertEquals(
+            $this->createKeyMessages(
+                $request->getRulesToMessages()['cnpj'],
+                'cnpj'
+            ),
+            $messages['cnpj.cnpj']
         );
     }
 
